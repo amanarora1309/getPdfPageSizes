@@ -56,21 +56,14 @@ async function getPageSizes(filePath) {
     const fileBuffer = fs.readFileSync(filePath);
     const pdfDoc = await PDFDocument.load(fileBuffer);
 
-    const pageSizesCount = {};
-    let totalPages = 0;
     const pages = pdfDoc.getPages();
-    pages.forEach(page => {
-        totalPages++;
+    const pageData = pages.map((page, index) => {
         const { width, height } = page.getSize();
         const sizeName = classifyPageSize(width, height);
-
-        if (!pageSizesCount[sizeName]) {
-            pageSizesCount[sizeName] = 0;
-        }
-        pageSizesCount[sizeName] += 1;
+        return { pageNo: index + 1, pageType: sizeName };
     });
 
-    return { pageSizesCount, totalPages };
+    return pageData;
 }
 
 app.post('/upload', upload.single('pdf'), async (req, res) => {
