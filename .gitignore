@@ -1,11 +1,5 @@
-/build
-/node_modules
-package-lock.json
-/build
-.eslintcache
 
-/pdfs
-/images
-/uploads
-/downloads
+/node_modules
+
+
 
